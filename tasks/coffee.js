@@ -16,6 +16,7 @@ module.exports = function(grunt) {
 
   grunt.registerMultiTask('coffee', 'Compile CoffeeScript files into JavaScript', function() {
     var options = this.options({
+      version: '2',
       bare: false,
       join: false,
       sourceMap: false,
@@ -179,7 +180,12 @@ module.exports = function(grunt) {
     }
 
     try {
-      return require('coffeescript').compile(code, coffeeOptions);
+      if (coffeeOptions.version === '1') {
+        return require('coffee-script').compile(code, coffeeOptions);
+      }
+      else {
+        return require('coffeescript').compile(code, coffeeOptions);
+      }
     } catch (e) {
       if (e.location == null ||
           e.location.first_column == null ||
